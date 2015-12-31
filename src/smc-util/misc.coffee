@@ -176,6 +176,9 @@ defaults = exports.defaults = (obj1, obj2, allow_extra) ->
             return s
         catch err
             return ""
+    if not obj1?
+        # useful special case
+        obj1 = {}
     if typeof(obj1) != 'object'
         # We put explicit traces before the errors in this function,
         # since otherwise they can be very hard to debug.
@@ -491,6 +494,20 @@ exports.trunc_left = (s, max_length=1024) ->
         return "..." + s.slice(s.length-max_length+3)
     else
         return s
+
+exports.pad_left = (s, n) ->
+    if not typeof(s) == 'string'
+        s = "#{s}"
+    for i in [s.length...n]
+        s = ' ' + s
+    return s
+
+exports.pad_right = (s, n) ->
+    if not typeof(s) == 'string'
+        s = "#{s}"
+    for i in [s.length...n]
+        s += ' '
+    return s
 
 # gives the plural form of the word if the number should be plural
 exports.plural = (number, singular, plural="#{singular}s") ->
